@@ -1,0 +1,70 @@
+{
+  "record_book": {
+    "info": {
+      "valid": false,
+      "first_name": "Max",
+      "last_name": "Mustermann",
+      "trainee_email": "",
+      "trainer_name": "",
+      "trainer_email": "",
+      "creation_date": "01.08.2020",
+      "end_date": "01.08.2023",
+      "vacation_days": 0,
+      "absent_days": 0,
+      "completed_pdf_1y": [],
+      "completed_pdf_2y": [],
+      "completed_pdf_3y": [],
+      "sent_finished_pdf_files1": [],
+      "sent_finished_pdf_files2": [],
+      "sent_finished_pdf_files3": []
+    },
+    "content": [
+      {
+        "year_of_apprenticeship": 1,
+        "calendar_week": [
+          {
+            "header": {
+              "from_to_date": "XX.XX-XX.XX",
+              "report_num": 1,
+              "status": "/home/guacah/Schreibtisch/Amin_Ordner/Berichtsheft/icons/notFilledOutSymbol.png",
+              "total_hours": "??"
+            },
+            "monday": {
+              "activities": "",
+              "department": "",
+              "hours": 2
+            },
+            "tuesday": {
+              "activities": "",
+              "department": "",
+              "hours": 2
+            },
+            "wednesday": {
+              "activities": "",
+              "department": "",
+              "hours": 2
+            },
+            "thursday": {
+              "activities": "",
+              "department": "",
+              "hours": 2
+            },
+            "friday": {
+              "activities": "",
+              "department": "",
+              "hours": 2
+            }
+          }
+        ]
+      },
+      {
+        "year_of_apprenticeship": 2,
+        "calendar_week": []
+      },
+      {
+        "year_of_apprenticeship": 3,
+        "calendar_week": []
+      }
+    ]
+  }
+}

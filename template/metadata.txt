@@ -1,0 +1,14 @@
+\newcommand{\Name}{$traineeName}
+\newcommand{\Section}{$department}
+\newcolumntype{s}{>{\columncolor[HTML]{$first_column_color}} p{2.2cm}}
+\arrayrulecolor[HTML]{000000}
+\definecolor{lightgray}{HTML}{$first_row_color}
+\pdfinfo{
+	/Author ($traineeName)
+	/Filename (Nachweis_$number)
+	/Period ($fromDate - $toDate)
+	/Apprenticeship_year ($yearOfTraining)
+	/Calendar_week ($cal_w)
+	/Email ($email)
+	/max_num_of_rep ($number_of_rep)
+}

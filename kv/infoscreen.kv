@@ -1,0 +1,179 @@
+#:kivy 1.11.1
+#:import cal calendar
+
+
+<InfoScreen>:
+
+    FloatLayout:
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                Color:
+                    rgb: utils.get_color_from_hex("#e4e4e4")
+        pos_hint: {"top": .89, "x": 0}
+
+        ImageButton:
+            size_hint: .07, .06
+	        pos_hint: {"top": .98, "center_x": .08}
+            source: os.path.join(os.getcwd(), 'icons', 'Pfeil.png')
+	        on_release:
+	            app.change_screen("settings_screen", direction='right')
+
+        GridLayout
+            cols: 1
+            spacing: 2, 2
+            size_hint: .8, .5
+            pos_hint: {"top": .855, "x": .1}
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel: 
+                    text: 'Name: '
+                Label:
+                    size_hint_x: .4
+                InfoTextInput:
+                    id: my_last_name
+                    text: app.MY_LAST_NAME
+
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel:
+                    text: 'Vorname: '
+                Label:
+                    size_hint_x: .4
+                InfoTextInput:
+                    id: my_first_name
+                    text: app.MY_FIRST_NAME
+
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel: 
+                    text: 'E-Mail: '
+                Label:
+                    size_hint_x: .4
+                InfoTextInput:
+                    id: my_email
+                    text: app.MY_EMAIL
+
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel: 
+                    text: 'Ausbilder Name: '
+                Label:
+                    size_hint_x: .4
+                InfoTextInput:
+                    id: trainer_name
+                    text: app.TRAINER_NAME
+
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel: 
+                    text: 'Ausbilder E-Mail: '
+                Label:
+                    size_hint_x: .4
+                InfoTextInput:
+                    id: trainer_email
+                    text: app.TRAINER_EMAIL
+
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel:
+                    text: 'Ausbildungsstart: '
+                Label:
+                    size_hint_x: .4
+                BoxLayout:
+                    spacing: 5
+                    DateInput:
+                        id: start_day
+                        size_hint: 0.2, .5
+                        hint_text: 'TT'
+                        # limit to 2 chars
+                        input_filter: lambda text, from_undo: text[:2 -len(self.text)]
+                        text: str(app.START_DAY)
+                    DateInput:
+                        id: start_month
+                        size_hint: 0.2, .5
+                        hint_text: 'MM'
+                        # limit to 2 chars
+                        input_filter: lambda text, from_undo: text[:2 -len(self.text)]
+                        text: str(app.START_MONTH)
+                    DateInput:
+                        id: start_year
+                        size_hint: 0.4, .5
+                        hint_text: 'JJJJ'
+                        # limit to 2 chars
+                        input_filter: lambda text, from_undo: text[:4-len(self.text)]
+                        text: str(app.START_YEAR)
+			BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel:
+                    text: 'Ausbildungsende: '
+                Label:
+                    size_hint_x: .4
+                BoxLayout:
+                    spacing: 5
+                    DateInput:
+                        id: end_day
+                        size_hint: 0.2, .5
+                        hint_text: 'TT'
+                        # limit to 2 chars
+                        input_filter: lambda text, from_undo: text[:2 -len(self.text)]
+                        text: str(app.end_day)
+                    DateInput:
+                        id: end_month
+                        size_hint: 0.2, .5
+                        hint_text: 'MM'
+                        # limit to 2 chars
+                        input_filter: lambda text, from_undo: text[:2 -len(self.text)]
+                        text: str(app.end_month)
+                    DateInput:
+                        id: end_year
+                        size_hint: 0.4, .5
+                        hint_text: 'JJJJ'
+                        # limit to 2 chars
+                        input_filter: lambda text, from_undo: text[:4-len(self.text)]
+                        text: str(app.end_year)
+		    Label:
+		        size_hint: 0.1, .5
+
+            ScaleButton:
+                background_normal: ''
+                background_color: [1, 0.8, 0, 1]
+                text: '  Speichern  '
+                font_size: sp(25)
+                bold: True
+                on_press:
+                    app.START_DAY = int(start_day.text) if start_day.text != '' else app.START_DAY
+                    app.START_MONTH = int(start_month.text) if start_month.text !='' else app.START_MONTH
+                    app.START_YEAR = int(start_year.text) if start_year.text != '' else app.START_YEAR-int(app.year)
+                    app.end_day = int(end_day.text) if end_day.text != '' and end_day.text != 'TT' else app.end_day
+                    app.end_month = int(end_month.text) if end_month.text != '' and end_month.text != 'MM' else app.end_month
+                    app.end_year = int(end_year.text) if end_year.text != '' and end_year.text != 'JJJJ' else app.end_year
+                    app.MY_FIRST_NAME = my_first_name.text.strip().title() if my_first_name.text != '' else app.MY_FIRST_NAME
+                    app.MY_LAST_NAME = my_last_name.text.strip().title() if my_last_name.text != '' else app.MY_LAST_NAME
+                    app.MY_EMAIL = my_email.text.strip() if my_email.text != '' else app.MY_EMAIL
+                    app.TRAINER_NAME = trainer_name.text.strip().title() if trainer_name.text != '' else app.TRAINER_NAME
+                    app.TRAINER_EMAIL = trainer_email.text.strip() if trainer_email.text != '' else app.TRAINER_EMAIL
+                    app.save_infos(False)
+                    root.ids['trainer_email'].text = ""
+                    root.ids['trainer_name'].text = ""
+                    root.ids['my_first_name'].text = ""
+                    root.ids['my_last_name'].text = ""
+                    root.ids['my_email'].text = ""
+                    root.ids['start_year'].text = ""
+                    root.ids['start_day'].text = ""
+                    root.ids['start_month'].text = ""

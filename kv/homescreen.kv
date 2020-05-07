@@ -1,0 +1,404 @@
+#:kivy 1.11.1
+
+<FloatButton@FloatLayout>:
+    id: f_root
+    size_hint: None, None
+    text: ''
+    btn_size: 35, 35
+    size: 35, 35
+    bg_color: .2,.2,.2,1
+    pos_hint: {'x': 0.05}
+    ImageButton:
+        text: f_root.text
+        markup: True
+        size_hint: None, None
+        size: f_root.btn_size
+        pos_hint: {'x': 0, 'y': .2}
+        background_normal: ''
+        source: os.path.join(os.getcwd(), 'icons', 'repeat.png')
+        on_press:
+            app.check_emails()
+        canvas.before:
+            Color:
+                rgba: f_root.bg_color
+            Ellipse:
+                size: self.width+20, self.height+20
+                pos: self.x-10, self.y-10
+
+
+<HomeScreen>:
+    FloatLayout:
+        id: home
+        Spinner:
+            # year of apprenticeship
+            id: apprenticeship_year
+            pos_hint: {"top": .89, "x": 0}
+            size_hint: 1, .05
+            text: "Ausbildungsjahr: 1"
+            color: 1, 1, 1, 1
+            bold: True
+            values: 'Ausbildungsjahr: 1','Ausbildungsjahr: 2', 'Ausbildungsjahr: 3'
+            on_text: app.change_year(self.text)
+
+        ScrollView:
+            pos_hint: {"top": .83, "x": 0}
+            size_hint: 1, .83
+            GridLayout:
+                # banner grid
+                id: banner_grid
+                cols: 1
+                spacing: 7
+                size_hint_y: None
+                height: self.minimum_height
+                row_default_height: '100dp'
+                row_force_default: True
+
+
+<ErrorPopup>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            Color:
+                rgb: utils.get_color_from_hex("#FFFFFFF")
+    size_hint: .6, .4
+    auto_dismiss: False
+    GridLayout:
+        cols: 1
+        rows: 2
+        size_hint_x: .8
+        spacing: 10
+        ScaleLabel:
+            size_hint_x: .5
+            halign: 'center'
+            valign: 'middle'
+            text: root.error_message
+            bold: True
+            font_size: sp(self.height*.1)
+            text_size: root.width, root.height
+        ScaleButton:
+            bold: True
+            background_normal: ''
+            background_color: 0, .6, .2, 1
+            text: ' OK '
+            font_size: sp(16)
+            size_hint_y: 0.2
+            on_press:
+                root.dismiss()
+
+<ImgButton>:
+    source: os.path.join(os.getcwd(), 'icons', 'sendButton.png')
+    size_hint: 1, .4
+    pos_hint: {"top": .7, "right": 1}
+
+
+<CheckEmailsPopup>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            Color:
+                rgb: utils.get_color_from_hex("#FFFFFF")
+    size_hint: .6, .4
+    auto_dismiss: False
+    GridLayout:
+        cols: 1
+        rows: 3
+        size_hint_y: 1
+        size_hint_x: .8
+        spacing: 10
+
+        ScaleLabel:
+            size_hint_x: .5
+            halign: 'center'
+            valign: 'middle'
+            text: f'Geben Sie ihr E-Mail Passwort ein, um neu abgezeichnete Berichte zu erhalten, die von der E-Mail [b][color=08f26e]{app.TRAINER_EMAIL}[/color][/b] versendet wurden.'
+            bold: True
+            markup: True
+            font_size: sp(self.height*.13)
+            text_size: root.width, root.height
+
+        TextInput:
+            id: pw
+            size_hint_y: .3
+            size_hint_x: .6
+            # center input
+            padding: 7, self.height / 2.0 - (self.line_height / 2.0), 7, 0
+            password: True
+            write_tab: False
+            multiline: False
+            bold: True
+            font_size: sp(16)
+
+        BoxLayout:
+            size_hint_y: .3
+            spacing: 5
+            ScaleButton:
+                background_normal: ''
+                background_color: 0, .6, .2, 1
+                text: ' Einloggen '
+                font_size: sp(16)
+                on_press:
+                    root.connect(pw.text)
+                    root.dismiss()
+                    root.ids['pw'].text = ""
+            ScaleButton:
+                background_normal: ''
+                background_color: 0, .6, .2, 1
+                text: ' Abbrechen '
+                font_size: sp(16)
+                on_release:
+                    root.dismiss()
+                    root.ids['pw'].text = ""
+
+
+<EnterPasswordPopup>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            Color:
+                rgb: utils.get_color_from_hex("#FFFFFF")
+    size_hint: .6, .4
+    auto_dismiss: False
+    GridLayout:
+        cols: 1
+        size_hint_y: 1
+        size_hint_x: .8
+        spacing: 10
+
+        ScaleLabel:
+            size_hint_x: .5
+            halign: 'center'
+            valign: 'middle'
+            text: f'Geben Sie ihr E-Mail Passwort ein, um den ausgewählten Ausbildungsnachweis \n an [b][color=08f26e]{app.TRAINER_EMAIL}[/color][/b] zu versenden.'
+            bold: True
+            markup: True
+            font_size: sp(self.height*.13)
+            text_size: root.width, root.height
+
+        TextInput:
+            id: pw
+            size_hint_y: .3
+            size_hint_x: .6
+            # center input
+            padding: 7, self.height / 2.0 - (self.line_height / 2.0), 7, 0
+            password: True
+            write_tab: False
+            multiline: False
+            bold: True
+            font_size: sp(16)
+
+        BoxLayout:
+            size_hint_y: .3
+            spacing: 5
+            ScaleButton:
+                background_normal: ''
+                background_color: 0, .6, .2, 1
+                text: ' Senden '
+                font_size: sp(16)
+                on_press:
+                    root.dismiss()
+                    app.valid_status = True
+                    root.send_email(pw.text)
+                    root.ids['pw'].text = ""
+            ScaleButton:
+                background_normal: ''
+                background_color: 0, .6, .2, 1
+                text: ' Abbrechen '
+                font_size: sp(16)
+                on_release:
+                    root.ids['pw'].text = ""
+                    app.valid_status = True
+                    root.dismiss()
+                    app.update_banner_status(*app.temp_var)
+
+
+<InfoTextInput@TextInput>:
+    size_hint_y: 0.5
+    pos_hint: {'top': .75, 'x': 0}
+    # top, bottom
+    padding: 7, self.height / 2.0 - (self.line_height / 2.0), 7, 0
+    write_tab: False
+    multiline: False
+    bold: True
+    font_size: sp(16)
+    size_hint_x: 1
+
+
+<InfoLabel@ScaleLabel>:
+    bold: True
+    outline_width: 1
+    size_hint_x: .14
+    font_size: sp(23)
+
+
+<DateInput@NumberInput>:
+    pos_hint: {'top': .75, 'x': 0}
+    # center text
+    on_text: self.update_padding()
+    padding: [7, self.height / 2.0 - (self.line_height / 2.0)] # *len(self._lines) to center multilines
+    font_size: sp(16)
+    write_tab: False
+    multiline: False
+    bold: True
+
+
+<StartInfoPopup>:
+    auto_dismiss: False
+    size_hint: .7, .8
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: os.path.join(os.getcwd(), 'icons', 'bg.png')
+
+        ScaleButton:
+            background_normal: ''
+            background_down: ''
+            background_color: 0, 0, 0, 0
+            color: 1, 1, 1, 1
+            size_hint: 1, .1
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            text: '  WILLKOMMEN  '
+            bold: True
+            font_size: sp(30)
+
+        GridLayout
+            cols: 1
+            spacing: 2, 2
+            size_hint: .75, .6
+            pos_hint: {"top": .855, "x": .125}
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel:
+                    text: 'Name:                  '
+                Label:
+                    size_hint_x: .4
+                InfoTextInput:
+                    id: my_last_name
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel:
+                    text: 'Vorname:             '
+                Label:
+                    size_hint_x: .4
+                InfoTextInput:
+                    id: my_first_name
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel:
+                    text: 'E-Mail:                 '
+                Label:
+                    size_hint_x: .4
+                InfoTextInput:
+                    id: my_email
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel: 
+                    text: 'Ausbilder Name: '
+                Label:
+                    size_hint_x: .4
+                InfoTextInput:
+                    id: trainer_name
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel:
+                    text: 'Ausbilder E-Mail:'
+                Label:
+                    size_hint_x: .4
+                InfoTextInput:
+                    id: trainer_email
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel:
+                    text: 'Ausbildungsstart: '
+                Label:
+                    size_hint_x: .4
+                BoxLayout:
+                    spacing: 5
+                    DateInput:
+                        id: start_day
+                        size_hint: .2, .5
+                        hint_text: 'TT'
+                        # limit to 2 chars
+                        input_filter: lambda text, from_undo: text[:2 -len(self.text)]
+                    DateInput:
+                        id: start_month
+                        size_hint: .2, .5
+                        hint_text: 'MM'
+                        # limit to 2 chars
+                        input_filter: lambda text, from_undo: text[:2 -len(self.text)]
+                    DateInput:
+                        id: start_year
+                        size_hint: .4, .5
+                        hint_text: 'JJJJ'
+                        # limit to 2 chars
+                        input_filter: lambda text, from_undo: text[:4-len(self.text)]
+
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    size_hint_x: .25
+                InfoLabel:
+                    text: 'Ausbildungsende: '
+                Label:
+                    size_hint_x: .4
+                BoxLayout:
+                    spacing: 5
+                    DateInput:
+                        id: end_day
+                        size_hint: .2, .5
+                        hint_text: 'TT'
+                        # limit to 2 chars
+                        input_filter: lambda text, from_undo: text[:2 -len(self.text)]
+                    DateInput:
+                        id: end_month
+                        size_hint: .2, .5
+                        hint_text: 'MM'
+                        # limit to 2 chars
+                        input_filter: lambda text, from_undo: text[:2 -len(self.text)]
+                    DateInput:
+                        id: end_year
+                        size_hint: .4, .5
+                        hint_text: 'JJJJ'
+                        # limit to 2 chars
+                        input_filter: lambda text, from_undo: text[:4-len(self.text)]
+            Label:
+                size_hint_y: .5
+            ScaleButton:
+                background_normal: ''
+                background_color: [1, 0.8, 0,1] #[0.98,0.82,0.23,1]
+                font_size: 25
+                text: "  LOS GEHT'S  "
+                bold: True
+                on_press:
+                    app.START_DAY = int(start_day.text) if start_day.text != '' and start_day.text != 'TT' else start_day.text
+                    app.START_MONTH = int(start_month.text) if start_month.text != '' and start_month.text != 'MM' else start_month.text
+                    app.START_YEAR = int(start_year.text) if start_year.text != '' and start_year.text != 'JJJJ' else start_year.text
+					app.end_day = int(end_day.text) if end_day.text != '' and end_day.text != 'TT' else end_day.text
+                    app.end_month = int(end_month.text) if end_month.text != '' and end_month.text != 'MM' else end_month.text
+                    app.end_year = int(end_year.text) if end_year.text != '' and end_year.text != 'JJJJ' else end_year.text
+                    app.MY_FIRST_NAME = my_first_name.text.strip().title()
+                    app.MY_LAST_NAME = my_last_name.text.strip().title()
+                    app.MY_EMAIL = my_email.text.strip()
+                    app.TRAINER_NAME = trainer_name.text.strip().title()
+                    app.TRAINER_EMAIL = trainer_email.text.strip()
+                    app.save_infos()
+                    root.dismiss() if app.is_filled_out() == True else None
+            Label:
+                size_hint_y: 0.2

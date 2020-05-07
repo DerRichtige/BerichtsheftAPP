@@ -1,0 +1,135 @@
+#:kivy 1.11.1
+
+
+<CustBox@BoxLayout>:
+    size_hint: .4, .8
+    padding: 0, 5, 0, 5
+    pos_hint: {"top": .9, "x": .05}
+
+
+<OverviewScreen>:
+    GridLayout:
+        pos_hint: {"top": .89, "x": 0}
+        rows: 1
+        cols: 1
+        canvas:
+            Color:
+                rgb: utils.get_color_from_hex("#FFFFFF")
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        FloatLayout:
+            size_hint: .8, .7
+            pos_hint: {"top": .9, "x": .1}
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: 1, .5
+                pos_hint: {"top": .9, "x": .1}
+                BoxLayout:
+                    spacing: 10
+                    ImageButton:
+                        source: os.path.join(os.getcwd(), 'icons', 'abgegeben.png')
+                        pos_hint: {"top": .9}
+                        size_hint: .5, .8
+                    ScaleLabel:
+                        id: submitted
+                        text: "10/100"
+                        font_size: 0.5*self.height
+                        text_size: self.size
+                        color: 0, 0, 0, 1
+                        valign: 'middle'
+                        pos_hint: {"top": .9}
+                        size_hint: .8, .8
+                BoxLayout:
+                    spacing: 10
+                    ImageButton:
+                        source: os.path.join(os.getcwd(), 'icons', 'genehmigt.png')
+                        pos_hint: {"top": .9}
+                        size_hint: .5, .8
+                    ScaleLabel:
+                        id: approved
+                        text: "10"
+                        font_size: 0.5*self.height
+                        text_size: self.size
+                        color: 0, 0, 0, 1
+                        valign: 'middle'
+                        pos_hint: {"top": .9}
+                        size_hint: .8, .8
+                BoxLayout:
+                    spacing: 10
+                    ImageButton:
+                        source: os.path.join(os.getcwd(), 'icons', 'vacation.png')
+                        pos_hint: {"top": .9}
+                        size_hint: .5, .8
+                    ScaleLabel:
+                        id: vacation
+                        text: "10"
+                        font_size: 0.5*self.height
+                        text_size: self.size
+                        color: 0, 0, 0, 1
+                        valign: 'middle'
+                        pos_hint: {"top": .9}
+                        size_hint: .8, .8
+                BoxLayout:
+                    spacing: 10
+                    ImageButton:
+                        source: os.path.join(os.getcwd(), 'icons', 'abwesend.png')
+                        pos_hint: {"top": .9}
+                        size_hint: .5, .8
+                    ScaleLabel:
+                        id: absent
+                        text: "10"
+                        font_size: 0.5*self.height
+                        text_size: self.size
+                        color: 0, 0, 0, 1
+                        valign: 'middle'
+                        pos_hint: {"top": .9}
+                        size_hint: .8, .8
+                CustBox:
+                    ScaleButton:
+                        background_color: (1,1,1,0.1)
+                        canvas.before:
+                            Color:
+                                rgba: (0,0.6,0.2,1)
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [10,]
+                        text: "   ERSTES LEHRJAHR   "
+                        font_size: 0.7*self.height
+                        bold: True
+                        on_press:
+                            app.completed_pdf_banners(1)
+                            app.change_screen("finalizedbanner_screen")
+                CustBox:
+                    ScaleButton:
+                        background_color: (1,1,1,0.1)
+                        canvas.before:
+                            Color:
+                                rgba: (0,0.6,0.2,1)
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [10,]
+                        text: "   ZWEITES LEHRJAHR   "
+                        font_size: 0.7*self.height
+                        bold: True
+                        on_press:
+                            app.completed_pdf_banners(2)
+                            app.change_screen("finalizedbanner_screen")
+                CustBox
+                    ScaleButton:
+                        background_color: (1,1,1,0.1)
+                        canvas.before:
+                            Color:
+                                rgba: (0,0.6,0.2,1)
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [10,]
+                        text: "   DRITTES LEHRJAHR   "
+                        font_size: 0.7*self.height
+                        bold: True
+                        on_press:
+                            app.completed_pdf_banners(3)
+                            app.change_screen("finalizedbanner_screen")

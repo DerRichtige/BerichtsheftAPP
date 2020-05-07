@@ -1,0 +1,12 @@
+#:kivy 1.11.1
+
+
+<CreationProgressBar@BoxLayout>:
+    orientation: "vertical"
+    Label:
+        bold: True
+        halign: 'center'
+        valign: 'top'
+        text: 'PDF wird erstellt'
+        font_size: self.height*0.17 if self.height>100 else 15
+        text_size: self.width, None

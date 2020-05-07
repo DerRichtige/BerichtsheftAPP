@@ -1,0 +1,434 @@
+#:kivy 1.11.1
+
+
+<WeekdayBox@BoxLayout>:
+    spacing: dp(12)
+    orientation: 'horizontal'
+    canvas:
+        Color:
+            rgb: utils.get_color_from_hex("#ffffff")
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    size_hint_y: .1
+
+
+<Weekday@ScaleLabel>:
+    color: 0,0,0,1
+    bold: True
+    font_size: sp(30)
+    size_hint_x: .2
+
+
+<Activities@ScaleButton>:
+    bold: True
+    color: 0,0,0,1
+    font_size: sp(25)
+    pos_hint: {"top": .9}
+    size_hint_y: .8
+    size_hint_x: .5
+
+
+<WorkingHours@ScaleLabel>:
+    font_size: sp(25)
+    pos_hint: {"top": .9}
+    bold: True
+    size_hint: .2, .8
+    color: 0, 0, 0, 1
+
+
+<HoursInput@NumberInput>:
+    pos_hint: {"top": 0.9, "right": 0}
+    # center horizontal and vertical by input
+    on_text: self.update_padding()
+    # center vertical
+    padding: [3, self.height / 2.0 - (self.line_height / 2.0)]
+    font_size: sp(25)
+    size_hint_y: .8
+    size_hint_x: None
+    width: sp(35)
+    bold: True
+    write_tab: False
+    background_color: (0,0,0,0.3) if self.focus else (0,0.7,0.2,0.2)
+    input_filter: lambda text, from_undo: text[:2-len(self.text)]
+
+
+<CheckBoxBtn@ToggleButtonBehavior+Image>:
+    allow_stretch: True
+    size_hint: .3, .6
+    pos_hint: {"top": .8}
+    source: self.state == 'down' and os.path.join(os.getcwd(), 'icons', 'checkbox.png') or os.path.join(os.getcwd(), 'icons', 'checkbox_empty.png')
+
+
+<TemplateScreen>:
+	# Screen to full fill the weekly report for the apprenticeship
+    FloatLayout:
+    # period from monday to the next friday of the week and a back button
+        canvas:
+            Color:
+                rgb: utils.get_color_from_hex("#ffffff")
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        pos_hint: {"top": .89, "x": 0}
+        size_hint: 1, .1
+        padding: dp(30), dp(10)
+
+        ImageButton:
+            source: os.path.join(os.getcwd(), 'icons', 'Pfeil.png')
+            on_release:
+                app.change_screen("home_screen", direction='right')
+                root.ids['mon_text'].text = "Tätigkeit"
+                root.ids['tue_text'].text = "Tätigkeit"
+                root.ids['wed_text'].text = "Tätigkeit"
+                root.ids['thu_text'].text = "Tätigkeit"
+                root.ids['fri_text'].text = "Tätigkeit"
+                root.ids['mon_hours'].text = ""
+                root.ids['tue_hours'].text = ""
+                root.ids['wed_hours'].text = ""
+                root.ids['thu_hours'].text = ""
+                root.ids['fri_hours'].text = ""
+                root.ids['vacation_week'].state = 'normal'
+                root.ids['sick_week'].state = 'normal'
+            size_hint: .4, .5
+            pos_hint: {"center_y": .5, "center_x": .08}
+
+        ScaleButton:
+            id: custl
+            background_normal: ''
+            background_color: 1, 1, 1, 1
+            background_down: ''
+            pos_hint: {"center_y": .5, "center_x": .5}
+            size_hint: .7, .6
+            color: 0, 0, 0, 1
+            text: "ERROR"
+            padding: dp(12), dp(12)
+            font_size: sp(30)
+
+    
+    WeekdayBox:
+        pos_hint: {"top": .78, "x": 0}
+        Label:
+            size_hint_x: .01
+        Weekday:
+            text: '   MO  '
+        Activities:
+            id: mon_text
+            canvas.before:
+                Color:
+                    rgba: (0,0.7,0.2,0.2)
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10,]
+            size_hint_y: .8
+            size_hint_x: 1
+            background_normal: ''
+            background_color: (1,1,1,0.2)
+            pos_hint: {"top": .9, "right": 0}
+            text: ' Tätigkeit '
+            bold: True
+            color: 0,0,0,1
+            font_size: sp(17)
+            on_press:
+                app.week_activities("monday")
+        WorkingHours:
+            text:'  Std.:  '
+        HoursInput:
+            id: mon_hours
+        Label:
+            size_hint_x: .07
+
+
+    WeekdayBox:
+        pos_hint: {"top": .674, "x": 0}
+        Label:
+            size_hint_x: .01
+        Weekday:
+            text: '   DI  '
+        Activities:
+            id: tue_text
+            canvas.before:
+                Color:
+                    rgba: (0,0.7,0.2,0.2)
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10,]
+            size_hint_y: .8
+            size_hint_x: 1
+            background_normal: ''
+            background_color: (1,1,1,0.2)
+            pos_hint: {"top": .9, "right": 0}
+            text: ' Tätigkeit '
+            bold: True
+            color: 0,0,0,1
+            font_size: sp(17)
+            on_press:
+                app.week_activities("tuesday")
+        WorkingHours:
+            text:'  Std.:  '
+        HoursInput:
+            id: tue_hours
+        Label:
+            size_hint_x: .07
+
+
+    WeekdayBox:
+        pos_hint: {"top": .568, "x": 0}
+        Label:
+            size_hint_x: .01
+        Weekday:
+            text: '   MI  '
+        Activities:
+            id: wed_text
+            canvas.before:
+                Color:
+                    rgba: (0,0.7,0.2,0.2)
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10,]
+            size_hint_y: .8
+            size_hint_x: 1
+            background_normal: ''
+            background_color: (1,1,1,0.2)
+            pos_hint: {"top": .9, "right": 0}
+            text: ' Tätigkeit '
+            bold: True
+            color: 0,0,0,1
+            font_size: sp(17)
+            on_press:
+                app.week_activities("wednesday")
+        WorkingHours:
+            text:'  Std.:  '
+        HoursInput:
+            id: wed_hours
+        Label:
+            size_hint_x: .07
+
+
+    WeekdayBox:
+        pos_hint: {"top": .462, "x": 0}
+        Label:
+            size_hint_x: .01
+        Weekday:
+            text: '   DO  '
+        Activities:
+            id: thu_text
+            canvas.before:
+                Color:
+                    rgba: (0,0.7,0.2,0.2)
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10,]
+            size_hint_y: .8
+            size_hint_x: 1
+            background_normal: ''
+            background_color: (1,1,1,0.2)
+            pos_hint: {"top": .9, "right": 0}
+            text: ' Tätigkeit '
+            bold: True
+            color: 0,0,0,1
+            font_size: sp(17)
+            on_press:
+                app.week_activities("thursday")
+        WorkingHours:
+            text:'  Std.:  '
+        HoursInput:
+            id: thu_hours
+        Label:
+            size_hint_x: .07
+
+
+    WeekdayBox:
+        pos_hint: {"top": .356, "x": 0}
+        Label:
+            size_hint_x: .01
+        Weekday:
+            text: '   FR  '
+        Activities:
+            id: fri_text
+            canvas.before:
+                Color:
+                    rgba: (0,0.7,0.2,0.2)
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10,]
+            size_hint_y: .8
+            size_hint_x: 1
+            background_normal: ''
+            background_color: (1,1,1,0.2)
+            pos_hint: {"top": .9, "right": 0}
+            text: ' Tätigkeit '
+            bold: True
+            color: 0,0,0,1
+            font_size: sp(17)
+            on_press:
+                app.week_activities("friday")
+        WorkingHours:
+            text:'  Std.:  '
+        HoursInput:
+            id: fri_hours
+        Label:
+            size_hint_x: .07
+
+
+    BoxLayout:
+        orientation: 'horizontal'
+        canvas:
+            Color:
+                rgb: utils.get_color_from_hex("#ffffff")
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        pos_hint: {"top": .25}
+        size_hint_y: .1
+        space: dp(10)
+        BoxLayout:
+            size_hint_x: .3
+            Label:
+                size_hint_x: .05
+            ScaleButton:
+                background_down: ''
+                background_normal: ''
+                color: 0,0,0,1
+                text: ' GESAMTE WOCHE     '
+                bold: True
+                font_size: sp(25)
+                pos_hint: {"top": .9, 'x': .05}
+                size_hint_x: .5
+                size_hint_y: .8
+        BoxLayout:
+            size_hint_x: .7
+            ImageButton:
+                source: os.path.join(os.getcwd(), 'icons', 'urlaub_btn.png')
+                size_hint: .3, .8
+                pos_hint: {"top": .9}
+            CheckBoxBtn:
+                id: vacation_week
+                group: 'absent_week'
+            ImageButton:
+                source: os.path.join(os.getcwd(), 'icons', 'krank_btn.png')
+                pos_hint: {"top": .9}
+                size_hint: .3, .8
+            CheckBoxBtn:
+                id: sick_week
+                group: 'absent_week'
+            Label:
+                size_hint_x: .05
+
+
+    BoxLayout:
+        # Button to create the report with the entered data
+        canvas:
+            Color:
+                rgb: utils.get_color_from_hex("#ffffff")
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        pos_hint: {"top": .15, "x": 0}
+        size_hint: 1, .15
+        padding: 10,0,10,0
+        ScaleButton:
+            background_color: (1,1,1,0.1)
+            canvas.before:
+                Color:
+                    rgba: (0,0.6,0.2,1)
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [17,]
+            bold: True
+            size_hint_y: .8
+            pos_hint: {"top": 0.9}
+            font_size: sp(35)
+            text: " ERSTELLEN "
+            # create pdf
+            on_press:
+                app.hours['monday'] = root.ids['mon_hours'].text
+                app.create('monday', False)
+                app.hours['tuesday'] = root.ids['tue_hours'].text
+                app.create('tuesday', False)
+                app.hours['wednesday'] = root.ids['wed_hours'].text
+                app.create('wednesday', False)
+                app.hours['thursday'] = root.ids['thu_hours'].text
+                app.create('thursday', False)
+                app.hours['friday'] = root.ids['fri_hours'].text
+                app.create('friday', True)
+
+
+<ActivitiesPopup>:
+	# Popup to enter the work activities of the selected week day as well as the department
+    size_hint: .8, .6
+    auto_dismiss: False
+    GridLayout:
+        cols: 1
+        TextInput:
+            id: lblact
+            text: app.weekday_activities
+            write_tab: False
+            multiline: True
+            hint_text: "Trage hier deine heutigen Tätigkeiten ein"
+        TextInput:
+            size_hint_y: .2
+            id: lbldept
+            padding: 7, self.height / 2.0 - (self.line_height / 2.0), 7, 0
+            multiline: False
+            write_tab: False
+            hint_text: "Abteilung"
+        BoxLayout:
+            orientation: 'horizontal'
+            canvas:
+                Color:
+                    rgb: utils.get_color_from_hex("#ffffff")
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: .3
+            space: dp(10)
+            Label:
+                size_hint_x: .02
+            ImageButton:
+                source: os.path.join(os.getcwd(), 'icons', 'urlaub_btn.png')
+                size_hint: .5, .75
+                pos_hint: {"top": .875}
+            CheckBoxBtn:
+                id: vacation
+                background_radio_down: os.path.join(os.getcwd(), 'icons', 'checkbox.png')
+                background_radio_normal: os.path.join(os.getcwd(), 'icons', 'checkbox_empty.png')
+                size_hint: .4, .4
+                pos_hint: {"top": .7}
+                group: 'absent'
+            ImageButton:
+                source: os.path.join(os.getcwd(), 'icons', 'krank_btn.png')
+                size_hint: .5, .75
+                pos_hint: {"top": .875}
+            CheckBoxBtn:
+                id: sick
+                background_radio_down: os.path.join(os.getcwd(), 'icons', 'checkbox.png')
+                background_radio_normal: os.path.join(os.getcwd(), 'icons', 'checkbox_empty.png')
+                size_hint: .4, .4
+                pos_hint: {"top": .7}
+                group: 'absent'
+            Label:
+                size_hint_x: .05
+        GridLayout:
+            cols: 2
+            size_hint_y: .2
+            ScaleButton:
+                font_size: sp(20)
+                text: ' Bestätigen '
+                on_press:
+                    app.activities = lblact.text
+                    app.department = lbldept.text
+                    print(sick.state)
+                    app.enter_activities(sick.state, vacation.state)
+                    root.dismiss()
+            ScaleButton:
+                font_size: sp(20)
+                text: ' Abbrechen '
+                on_press: root.dismiss()

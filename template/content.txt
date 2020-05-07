@@ -1,0 +1,16 @@
+\HeadSection{$fromDate}{$toDate}{$yearOfTraining}{$number}
+
+\Week{
+\textbf{Montag} & $mondayText & $mondayHours \\
+\hline
+\textbf{Dienstag} & $tuesdayText & $tuesdayHours \\
+\hline
+\textbf{Mittwoch} & $wednesdayText & $wednesdayHours \\
+\hline
+\textbf{Donnerstag} & $thursdayText & $thursdayHours \\
+\hline
+\textbf{Freitag} & $fridayText & $fridayHours \\
+\hline
+}
+
+\Signature{$sigDateTrainee}

@@ -1,0 +1,74 @@
+#:kivy 1.11.1
+
+
+<DesignScreen>:
+    FloatLayout:
+        ScrollView:
+            pos_hint: {"top": .89, "x": 0}
+            size_hint: 1, .89
+            GridLayout:
+                # design_banner
+                id: design_banner
+                cols: 1
+                spacing: dp(7)
+                size_hint_y: None
+                height: self.minimum_height
+                row_default_height: '400dp'
+                row_force_default: True
+
+
+<CustCheckBox@ToggleButtonBehavior+Image>:
+    allow_stretch: True
+    canvas.before:
+        Color:
+            rgba: 0, .6, .2, 1
+        Rectangle:
+            pos: self.pos
+            size: [dp(50), dp(50)]
+        Color:
+            rgba: 0, 0, 0, .8
+        Rectangle:
+            pos: self.x+dp(2.5), self.y+dp(2.5)
+            size: [dp(45), dp(45)]
+    source: self.state == 'down' and os.path.join(os.getcwd(), 'icons', 'checkbox.png') or os.path.join(os.getcwd(), 'icons', 'checkbox_empty.png')
+    size_hint: None, None
+    size: dp(50), dp(50)
+    color: 1, 1, 1, 1
+
+<Design1@Widget>:
+    canvas.before:
+        Color:
+            rgba: app.selected_color[1]
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<WhiteBox@Widget>:
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Design0@Widget>:
+    canvas.before:
+        Color:
+            rgba: app.selected_color[0]
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<ColorPickerPopup>
+    title: "Design"
+    size_hint: .5, .5
+    auto_dismiss: False
+    ColPcker:
+        on_color: app.selected_color[root.design_num], app.selected_hex_color[root.design_num] = self.color, self.hex_color
+        Button:
+            text: 'Select'
+            pos_hint: {'center_x': .76, 'y': .03 }
+            size_hint: .3, .3
+            on_press:
+                root.dismiss()
